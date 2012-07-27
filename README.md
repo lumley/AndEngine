@@ -1,5 +1,19 @@
 # AndEngine
 
+This is a fork from the original AndEngine project (GLES2-AnchorCenter) as of 27-07-2012 version. This fork's aim is to make a stable version (without new functionality) and document as far as I can manage to understand.
+
+## Other forked parts of AndEngine
+ * [`AndEngineMODPlayerExtension`][URI_AndEngineMODPlayerExtension_Forked]
+ * [`AndEngineMultiplayerExtension`][URI_AndEngineMultiplayerExtension_Forked]
+ * [`AndEngineMultiTouchExtension`][URI_AndEngineMultiTouchExtension_Forked]
+ * [`AndEnginePhysicsBox2DExtension`][URI_AndEnginePhysicsBox2DExtension_Forked]
+ * [`AndEngineRobotiumExtension`][URI_AndEngineRobotiumExtension_Forked]
+ * [`AndEngineScriptingExtension`][URI_AndEngineScriptingExtension_Forked]
+ * [`AndEngineSVGTextureRegionExtension`][URI_AndEngineSVGTextureRegionExtension_Forked]
+ * [`AndEngineTexturePackerExtension`][URI_AndEngineTexturePackerExtension_Forked]
+ * [`AndEngineTMXTiledMapExtension`][URI_AndEngineTMXTiledMapExtension_Forked]
+
+Original readme:
 ## Building
 
 ### Eclipse
@@ -67,3 +81,13 @@ public final class BuildConfig {
 [URI_AndEngineSVGTextureRegionExtension]: https://github.com/nicolasgramlich/AndEngineSVGTextureRegionExtension
 [URI_AndEngineTexturePackerExtension]: https://github.com/nicolasgramlich/AndEngineTexturePackerExtension
 [URI_AndEngineTMXTiledMapExtension]: https://github.com/nicolasgramlich/AndEngineTMXTiledMapExtension
+
+[URI_AndEngineMODPlayerExtension_Forked]: https://github.com/lumley/AndEngineMODPlayerExtension
+[URI_AndEngineMultiplayerExtension_Forked]: https://github.com/lumley/AndEngineMultiplayerExtension
+[URI_AndEngineMultiTouchExtension_Forked]: https://github.com/lumley/AndEngineMultiTouchExtension
+[URI_AndEnginePhysicsBox2DExtension_Forked]: https://github.com/lumley/AndEnginePhysicsBox2DExtension
+[URI_AndEngineRobotiumExtension_Forked]: https://github.com/lumley/AndEngineRobotiumExtension
+[URI_AndEngineScriptingExtension_Forked]: https://github.com/lumley/AndEngineScriptingExtension
+[URI_AndEngineSVGTextureRegionExtension_Forked]: https://github.com/lumley/AndEngineSVGTextureRegionExtension
+[URI_AndEngineTexturePackerExtension_Forked]: https://github.com/lumley/AndEngineTexturePackerExtension
+[URI_AndEngineTMXTiledMapExtension_Forked]: https://github.com/lumley/AndEngineTMXTiledMapExtension
