@@ -18,7 +18,7 @@ import org.andengine.util.exception.MethodNotSupportedException;
 import android.opengl.GLES20;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 16:44:50 - 09.02.2012
@@ -157,10 +157,10 @@ public class Mesh extends Shape {
 
 	@Override
 	public boolean collidesWith(final IEntity pOtherEntity) {
-		if(pOtherEntity instanceof Mesh) {
+		if (pOtherEntity instanceof Mesh) {
 			// TODO
 			return super.collidesWith(pOtherEntity);
-		} else if(pOtherEntity instanceof Line) {
+		} else if (pOtherEntity instanceof Line) {
 			// TODO
 			return super.collidesWith(pOtherEntity);
 		} else {

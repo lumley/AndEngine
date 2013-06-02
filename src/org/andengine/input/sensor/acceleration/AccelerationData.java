@@ -8,9 +8,9 @@ import android.hardware.SensorManager;
 import android.view.Surface;
 
 /**
- * (c) 2010 Nicolas Gramlich 
+ * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga Inc.
- * 
+ *
  * @author Nicolas Gramlich
  * @since 16:50:44 - 10.03.2010
  */
@@ -100,7 +100,7 @@ public class AccelerationData extends BaseSensorData {
 	}
 
 	public void setZ(final float pZ) {
-		this.mValues[SensorManager.DATA_Z]  = pZ;
+		this.mValues[SensorManager.DATA_Z] = pZ;
 	}
 
 	@Override

@@ -19,9 +19,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 /**
- * (c) 2010 Nicolas Gramlich 
+ * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga Inc.
- * 
+ *
  * @author Nicolas Gramlich
  * @since 18:11:54 - 07.03.2011
  */
@@ -37,6 +37,10 @@ public final class ActivityUtils {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	private ActivityUtils() {
+
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -105,14 +109,14 @@ public final class ActivityUtils {
 	}
 
 	public static final <T> void doAsync(final Context pContext, final CharSequence pTitle, final CharSequence pMessage, final Callable<T> pCallable, final Callback<T> pCallback, final Callback<Exception> pExceptionCallback, final boolean pCancelable) {
-		new AsyncTask<Void, Void, T>() {
+		AsyncTaskUtils.execute(new AsyncTask<Void, Void, T>() {
 			private ProgressDialog mPD;
-			private Exception mException = null;
+			private Exception mException;
 
 			@Override
 			public void onPreExecute() {
 				this.mPD = ProgressDialog.show(pContext, pTitle, pMessage, true, pCancelable);
-				if(pCancelable) {
+				if (pCancelable) {
 					this.mPD.setOnCancelListener(new OnCancelListener() {
 						@Override
 						public void onCancel(final DialogInterface pDialogInterface) {
@@ -135,32 +139,32 @@ public final class ActivityUtils {
 			}
 
 			@Override
-			public void onPostExecute(final T result) {
+			public void onPostExecute(final T pResult) {
 				try {
 					this.mPD.dismiss();
 				} catch (final Exception e) {
 					Debug.e("Error", e);
 				}
 
-				if(this.isCancelled()) {
+				if (this.isCancelled()) {
 					this.mException = new CancelledException();
 				}
 
-				if(this.mException == null) {
-					pCallback.onCallback(result);
+				if (this.mException == null) {
+					pCallback.onCallback(pResult);
 				} else {
-					if(pExceptionCallback == null) {
+					if (pExceptionCallback == null) {
 						Debug.e("Error", this.mException);
 					} else {
 						pExceptionCallback.onCallback(this.mException);
 					}
 				}
 
-				super.onPostExecute(result);
+				super.onPostExecute(pResult);
 			}
-		}.execute((Void[]) null);
+		});
 	}
-	
+
 	public static final <T> void doProgressAsync(final Context pContext, final int pTitleResourceID, final int pIconResourceID, final ProgressCallable<T> pCallable, final Callback<T> pCallback) {
 		ActivityUtils.doProgressAsync(pContext, pTitleResourceID, pIconResourceID, pCallable, pCallback, null);
 	}
@@ -174,9 +178,9 @@ public final class ActivityUtils {
 	}
 
 	public static final <T> void doProgressAsync(final Context pContext, final CharSequence pTitle, final int pIconResourceID, final ProgressCallable<T> pCallable, final Callback<T> pCallback, final Callback<Exception> pExceptionCallback) {
-		new AsyncTask<Void, Integer, T>() {
+		AsyncTaskUtils.execute(new AsyncTask<Void, Integer, T>() {
 			private ProgressDialog mPD;
-			private Exception mException = null;
+			private Exception mException;
 
 			@Override
 			public void onPreExecute() {
@@ -205,12 +209,12 @@ public final class ActivityUtils {
 			}
 
 			@Override
-			public void onProgressUpdate(final Integer... values) {
-				this.mPD.setProgress(values[0]);
+			public void onProgressUpdate(final Integer... pValues) {
+				this.mPD.setProgress(pValues[0]);
 			}
 
 			@Override
-			public void onPostExecute(final T result) {
+			public void onPostExecute(final T pResult) {
 				try {
 					this.mPD.dismiss();
 				} catch (final Exception e) {
@@ -218,23 +222,23 @@ public final class ActivityUtils {
 					/* Nothing. */
 				}
 
-				if(this.isCancelled()) {
+				if (this.isCancelled()) {
 					this.mException = new CancelledException();
 				}
 
-				if(this.mException == null) {
-					pCallback.onCallback(result);
+				if (this.mException == null) {
+					pCallback.onCallback(pResult);
 				} else {
-					if(pExceptionCallback == null) {
+					if (pExceptionCallback == null) {
 						Debug.e("Error", this.mException);
 					} else {
 						pExceptionCallback.onCallback(this.mException);
 					}
 				}
 
-				super.onPostExecute(result);
+				super.onPostExecute(pResult);
 			}
-		}.execute((Void[]) null);
+		});
 	}
 
 	public static final <T> void doAsync(final Context pContext, final int pTitleResourceID, final int pMessageResourceID, final AsyncCallable<T> pAsyncCallable, final Callback<T> pCallback, final Callback<Exception> pExceptionCallback) {
@@ -245,7 +249,7 @@ public final class ActivityUtils {
 		final ProgressDialog pd = ProgressDialog.show(pContext, pTitle, pMessage);
 		pAsyncCallable.call(new Callback<T>() {
 			@Override
-			public void onCallback(final T result) {
+			public void onCallback(final T pResult) {
 				try {
 					pd.dismiss();
 				} catch (final Exception e) {
@@ -253,7 +257,7 @@ public final class ActivityUtils {
 					/* Nothing. */
 				}
 
-				pCallback.onCallback(result);
+				pCallback.onCallback(pResult);
 			}
 		}, pExceptionCallback);
 	}

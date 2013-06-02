@@ -3,7 +3,7 @@ package org.andengine.util.escape;
 import org.andengine.util.adt.map.IntLookupMap;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 15:31:08 - 26.04.2012
@@ -39,14 +39,14 @@ public class UnescaperEntityMap extends IntLookupMap<CharSequence> {
 
 	@Override
 	public CharSequence item(final int pValue) {
-		if(pValue < UnescaperEntityMap.LOOKUP_TABLE_SIZE) {
+		if (pValue < UnescaperEntityMap.LOOKUP_TABLE_SIZE) {
 			return this.mLookupTable[pValue];
 		}
 		return super.item(pValue);
 	}
 
 	public void init() {
-		for(int i = 0; i < UnescaperEntityMap.LOOKUP_TABLE_SIZE; ++i) {
+		for (int i = 0; i < UnescaperEntityMap.LOOKUP_TABLE_SIZE; ++i) {
 			this.mLookupTable[i] = super.item(i);
 		}
 	}

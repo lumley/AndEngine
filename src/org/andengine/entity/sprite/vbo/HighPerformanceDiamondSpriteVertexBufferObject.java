@@ -7,7 +7,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributes;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 18:43:22 - 28.03.2012
@@ -73,8 +73,8 @@ public class HighPerformanceDiamondSpriteVertexBufferObject extends HighPerforma
 		final float u2;
 		final float v2;
 
-		if(pSprite.isFlippedVertical()) { // TODO Optimize with field access?
-			if(pSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
+		if (pSprite.isFlippedVertical()) { // TODO Optimize with field access?
+			if (pSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
 				u = textureRegion.getU2();
 				u2 = textureRegion.getU();
 				v = textureRegion.getV2();
@@ -86,7 +86,7 @@ public class HighPerformanceDiamondSpriteVertexBufferObject extends HighPerforma
 				v2 = textureRegion.getV();
 			}
 		} else {
-			if(pSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
+			if (pSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
 				u = textureRegion.getU2();
 				u2 = textureRegion.getU();
 				v = textureRegion.getV();
@@ -102,7 +102,7 @@ public class HighPerformanceDiamondSpriteVertexBufferObject extends HighPerforma
 		final float uCenter = (u + u2) * 0.5f;
 		final float vCenter = (v + v2) * 0.5f;
 
-		if(textureRegion.isRotated()) {
+		if (textureRegion.isRotated()) {
 			bufferData[0 * Sprite.VERTEX_SIZE + Sprite.TEXTURECOORDINATES_INDEX_U] = u2;
 			bufferData[0 * Sprite.VERTEX_SIZE + Sprite.TEXTURECOORDINATES_INDEX_V] = vCenter;
 

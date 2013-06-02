@@ -7,24 +7,29 @@ import java.util.Scanner;
 import java.util.regex.MatchResult;
 
 import org.andengine.util.StreamUtils;
-import org.andengine.util.adt.DataConstants;
+import org.andengine.util.adt.data.constants.DataConstants;
+import org.andengine.util.exception.AndEngineException;
+import org.andengine.util.exception.MethodNotFoundException;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Debug;
 import android.os.Debug.MemoryInfo;
 
 /**
  * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga Inc.
- * 
+ *
  * @author Nicolas Gramlich
  * @since 15:50:31 - 14.07.2010
  */
-public class SystemUtils {
+public final class SystemUtils {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -49,20 +54,13 @@ public class SystemUtils {
 	// Constructors
 	// ===========================================================
 
+	private SystemUtils() {
+
+	}
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
-	public static MemoryInfo getMemoryInfo() {
-		/* Lazy allocation. */
-		if(SystemUtils.sMemoryInfo == null) {
-			SystemUtils.sMemoryInfo = new MemoryInfo();
-		}
-
-		Debug.getMemoryInfo(SystemUtils.sMemoryInfo);
-
-		return SystemUtils.sMemoryInfo;
-	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -72,8 +70,74 @@ public class SystemUtils {
 	// Methods
 	// ===========================================================
 
-	public static boolean isGoogleTV(final Context pContext) {
+	public static boolean isEmulator() {
+		if (Build.PRODUCT != null && Build.PRODUCT.equals("google_sdk")) {
+			return true;
+		} else if (Build.MODEL != null && Build.MODEL.equals("google_sdk")) {
+			return true;
+		} else if (Build.BRAND != null && Build.BRAND.startsWith("generic")){
+			return true;
+		} else if (Build.DEVICE != null && Build.DEVICE.startsWith("generic")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static MemoryInfo getMemoryInfo() {
+		/* Lazy allocation. */
+		if (SystemUtils.sMemoryInfo == null) {
+			SystemUtils.sMemoryInfo = new MemoryInfo();
+		}
+
+		Debug.getMemoryInfo(SystemUtils.sMemoryInfo);
+
+		return SystemUtils.sMemoryInfo;
+	}
+
+	public static boolean isGoogleTV(final Context pContext) throws SystemUtilsException {
 		return SystemUtils.hasSystemFeature(pContext, "com.google.android.tv");
+	}
+
+	public static boolean isGoogleTV(final Context pContext, final boolean pDefault) {
+		try {
+			return SystemUtils.isGoogleTV(pContext);
+		} catch (final SystemUtilsException e) {
+			return pDefault;
+		}
+	}
+
+	public static boolean hasCamera(final Context pContext) throws SystemUtilsException {
+		return SystemUtils.hasSystemFeature(pContext, PackageManager.FEATURE_CAMERA);
+	}
+
+	public static boolean hasCamera(final Context pContext, final boolean pDefault) {
+		try {
+			return SystemUtils.hasCamera(pContext);
+		} catch (final SystemUtilsException e) {
+			return pDefault;
+		}
+	}
+
+	public static boolean isNDKSupported(final Context pContext, final boolean pDefault) {
+		try {
+			if (SystemUtils.isGoogleTV(pContext)) {
+				if (SystemUtils.isAndroidVersionOrHigher(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return true;
+			}
+		} catch (final SystemUtilsException e) {
+			return pDefault;
+		}
+	}
+
+	public static String getApplicationLabel(final Context pContext) throws SystemUtilsException {
+	    final int labelResID = SystemUtils.getApplicationInfo(pContext).labelRes;
+	    return pContext.getString(labelResID);
 	}
 
 	public static int getPackageVersionCode(final Context pContext) throws SystemUtilsException {
@@ -89,28 +153,173 @@ public class SystemUtils {
 	}
 
 	public static String getApkFilePath(final Context pContext) throws SystemUtilsException {
-		final PackageManager packMgmr = pContext.getPackageManager();
+		return SystemUtils.getApplicationInfo(pContext, 0).sourceDir;
+	}
+
+	public static ApplicationInfo getApplicationInfo(final Context pContext) throws SystemUtilsException {
+		return SystemUtils.getApplicationInfo(pContext, 0);
+	}
+
+	public static ApplicationInfo getApplicationInfo(final Context pContext, final int pFlags) throws SystemUtilsException {
 		try {
-			return packMgmr.getApplicationInfo(SystemUtils.getPackageName(pContext), 0).sourceDir;
+			return pContext.getPackageManager().getApplicationInfo(pContext.getPackageName(), pFlags);
 		} catch (final NameNotFoundException e) {
 			throw new SystemUtilsException(e);
 		}
 	}
 
-	private static PackageInfo getPackageInfo(final Context pContext) throws SystemUtilsException {
+	public static PackageInfo getPackageInfo(final Context pContext) throws SystemUtilsException {
+		return SystemUtils.getPackageInfo(pContext, 0);
+	}
+
+	public static PackageInfo getPackageInfo(final Context pContext, final int pFlags) throws SystemUtilsException {
 		try {
-			return pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), 0);
+			return pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), pFlags);
 		} catch (final NameNotFoundException e) {
 			throw new SystemUtilsException(e);
 		}
 	}
 
-	public static boolean hasSystemFeature(final Context pContext, final String pFeature) {
+	public static int getTargetSDKVersion(final Context pContext) throws SystemUtilsException {
+		return SystemUtils.getApplicationInfo(pContext).targetSdkVersion;
+	}
+
+	public static boolean hasSystemFeature(final Context pContext, final String pFeature) throws SystemUtilsException {
+		final PackageManager packageManager = pContext.getPackageManager();
 		try {
-			final Method PackageManager_hasSystemFeatures = PackageManager.class.getMethod("hasSystemFeature", new Class[] { String.class });
-			return (PackageManager_hasSystemFeatures == null) ? false : (Boolean) PackageManager_hasSystemFeatures.invoke(pContext.getPackageManager(), pFeature);
+			try {
+				return packageManager.hasSystemFeature(pFeature);
+			} catch (final Throwable t) {
+				final Method PackageManager_hasSystemFeatures = PackageManager.class.getMethod("hasSystemFeature", String.class);
+				if (PackageManager_hasSystemFeatures == null) {
+					throw new SystemUtilsException(new MethodNotFoundException(PackageManager.class.getSimpleName() + ".hasSystemFeature(String)"));
+				} else {
+					final boolean result = (Boolean) PackageManager_hasSystemFeatures.invoke(packageManager, pFeature);
+					return result;
+				}
+			}
 		} catch (final Throwable t) {
-			return false;
+			throw new SystemUtilsException(t);
+		}
+	}
+
+	public static boolean hasSystemFeature(final Context pContext, final String pFeature, final boolean pDefault) {
+		try {
+			return SystemUtils.hasSystemFeature(pContext, pFeature);
+		} catch (final SystemUtilsException e) {
+			return pDefault;
+		}
+	}
+
+	public static boolean optMetaDataBoolean(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		return bundle.getBoolean(pKey);
+	}
+
+	public static boolean optMetaDataBoolean(final Context pContext, final String pKey, final boolean pDefaultValue) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		return bundle.getBoolean(pKey, pDefaultValue);
+	}
+
+	public static int optMetaDataInt(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		return bundle.getInt(pKey);
+	}
+
+	public static int optMetaDataInt(final Context pContext, final String pKey, final int pDefaultValue) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		return bundle.getInt(pKey, pDefaultValue);
+	}
+
+	public static float optMetaDataFloat(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		return bundle.getFloat(pKey);
+	}
+
+	public static float optMetaDataFloat(final Context pContext, final String pKey, final float pDefaultValue) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		return bundle.getFloat(pKey, pDefaultValue);
+	}
+
+	public static String optMetaDataString(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		return bundle.getString(pKey);
+	}
+
+	public static String optMetaDataString(final Context pContext, final String pKey, final String pDefaultValue) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		if (bundle.containsKey(pKey)) {
+			return bundle.getString(pKey);
+		} else {
+			return pDefaultValue;
+		}
+	}
+
+	public static int optMetaDataColor(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		return Color.parseColor(bundle.getString(pKey));
+	}
+
+	public static int optMetaDataColor(final Context pContext, final String pKey, final int pDefaultValue) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		if (bundle.containsKey(pKey)) {
+			return Color.parseColor(bundle.getString(pKey));
+		} else {
+			return pDefaultValue;
+		}
+	}
+
+	public static boolean getMetaDataBoolean(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		if (bundle.containsKey(pKey)) {
+			return bundle.getBoolean(pKey);
+		} else {
+			throw new SystemUtilsException(new IllegalArgumentException("Could not find meta data with key: '" + pKey + "'."));
+		}
+	}
+
+	public static int getMetaDataInt(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		if (bundle.containsKey(pKey)) {
+			return bundle.getInt(pKey);
+		} else {
+			throw new SystemUtilsException(new IllegalArgumentException("Could not find meta data with key: '" + pKey + "'."));
+		}
+	}
+
+	public static float getMetaDataFloat(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		if (bundle.containsKey(pKey)) {
+			return bundle.getFloat(pKey);
+		} else {
+			throw new SystemUtilsException(new IllegalArgumentException("Could not find meta data with key: '" + pKey + "'."));
+		}
+	}
+
+	public static String getMetaDataString(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		if (bundle.containsKey(pKey)) {
+			return bundle.getString(pKey);
+		} else {
+			throw new SystemUtilsException(new IllegalArgumentException("Could not find meta data with key: '" + pKey + "'."));
+		}
+	}
+
+	public static int getMetaDataColor(final Context pContext, final String pKey) throws SystemUtilsException {
+		final Bundle bundle = SystemUtils.getMetaData(pContext);
+		if (bundle.containsKey(pKey)) {
+			return Color.parseColor(bundle.getString(pKey));
+		} else {
+			throw new SystemUtilsException(new IllegalArgumentException("Could not find meta data with key: '" + pKey + "'."));
+		}
+	}
+
+	public static Bundle getMetaData(final Context pContext) throws SystemUtilsException {
+		try {
+			final ApplicationInfo applicationInfo = SystemUtils.getApplicationInfo(pContext, PackageManager.GET_META_DATA);
+			return applicationInfo.metaData;
+		} catch (final Throwable t) {
+			throw new SystemUtilsException(t);
 		}
 	}
 
@@ -140,7 +349,7 @@ public class SystemUtils {
 		final MatchResult matchResult = SystemUtils.matchSystemFile("/proc/cpuinfo", SystemUtils.BOGOMIPS_PATTERN, 1000);
 
 		try {
-			if(matchResult.groupCount() > 0) {
+			if (matchResult.groupCount() > 0) {
 				return Float.parseFloat(matchResult.group(1));
 			} else {
 				throw new SystemUtilsException();
@@ -158,7 +367,7 @@ public class SystemUtils {
 		final MatchResult matchResult = SystemUtils.matchSystemFile("/proc/meminfo", SystemUtils.MEMTOTAL_PATTERN, 1000);
 
 		try {
-			if(matchResult.groupCount() > 0) {
+			if (matchResult.groupCount() > 0) {
 				return Long.parseLong(matchResult.group(1));
 			} else {
 				throw new SystemUtilsException();
@@ -176,7 +385,7 @@ public class SystemUtils {
 		final MatchResult matchResult = SystemUtils.matchSystemFile("/proc/meminfo", SystemUtils.MEMFREE_PATTERN, 1000);
 
 		try {
-			if(matchResult.groupCount() > 0) {
+			if (matchResult.groupCount() > 0) {
 				return Long.parseLong(matchResult.group(1));
 			} else {
 				throw new SystemUtilsException();
@@ -229,13 +438,13 @@ public class SystemUtils {
 	private static MatchResult matchSystemFile(final String pSystemFile, final String pPattern, final int pHorizon) throws SystemUtilsException {
 		InputStream in = null;
 		try {
-			final Process process = new ProcessBuilder(new String[] { "/system/bin/cat", pSystemFile }).start();
+			final Process process = new ProcessBuilder(new String[] {"/system/bin/cat", pSystemFile}).start();
 
 			in = process.getInputStream();
 			final Scanner scanner = new Scanner(in);
 
 			final boolean matchFound = scanner.findWithinHorizon(pPattern, pHorizon) != null;
-			if(matchFound) {
+			if (matchFound) {
 				return scanner.match();
 			} else {
 				throw new SystemUtilsException();
@@ -250,7 +459,7 @@ public class SystemUtils {
 	private static long readSystemFileAsLong(final String pSystemFile) throws SystemUtilsException {
 		InputStream in = null;
 		try {
-			final Process process = new ProcessBuilder(new String[] { "/system/bin/cat", pSystemFile }).start();
+			final Process process = new ProcessBuilder(new String[] {"/system/bin/cat", pSystemFile}).start();
 
 			in = process.getInputStream();
 			final String content = StreamUtils.readFully(in);
@@ -328,7 +537,7 @@ public class SystemUtils {
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	public static class SystemUtilsException extends Exception {
+	public static class SystemUtilsException extends AndEngineException {
 		// ===========================================================
 		// Constants
 		// ===========================================================
@@ -336,7 +545,7 @@ public class SystemUtils {
 		private static final long serialVersionUID = -7256483361095147596L;
 
 		// ===========================================================
-		// Methods
+		// Constructors
 		// ===========================================================
 
 		public SystemUtilsException() {

@@ -9,7 +9,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributes;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 18:39:06 - 28.03.2012
@@ -47,7 +47,7 @@ public class HighPerformanceTiledSpriteVertexBufferObject extends HighPerformanc
 
 		final int tileCount = pTiledSprite.getTileCount();
 		int bufferDataOffset = 0;
-		for(int i = 0; i < tileCount; i++) {
+		for (int i = 0; i < tileCount; i++) {
 			bufferData[bufferDataOffset + 0 * TiledSprite.VERTEX_SIZE + Sprite.COLOR_INDEX] = packedColor;
 			bufferData[bufferDataOffset + 1 * TiledSprite.VERTEX_SIZE + Sprite.COLOR_INDEX] = packedColor;
 			bufferData[bufferDataOffset + 2 * TiledSprite.VERTEX_SIZE + Sprite.COLOR_INDEX] = packedColor;
@@ -70,7 +70,7 @@ public class HighPerformanceTiledSpriteVertexBufferObject extends HighPerformanc
 
 		final int tileCount = pTiledSprite.getTileCount();
 		int bufferDataOffset = 0;
-		for(int i = 0; i < tileCount; i++) {
+		for (int i = 0; i < tileCount; i++) {
 			bufferData[bufferDataOffset + 0 * TiledSprite.VERTEX_SIZE + Sprite.VERTEX_INDEX_X] = 0;
 			bufferData[bufferDataOffset + 0 * TiledSprite.VERTEX_SIZE + Sprite.VERTEX_INDEX_Y] = 0;
 
@@ -103,7 +103,7 @@ public class HighPerformanceTiledSpriteVertexBufferObject extends HighPerformanc
 
 		final int tileCount = pTiledSprite.getTileCount();
 		int bufferDataOffset = 0;
-		for(int i = 0; i < tileCount; i++) {
+		for (int i = 0; i < tileCount; i++) {
 			final ITextureRegion textureRegion = tiledTextureRegion.getTextureRegion(i);
 
 			final float u;
@@ -111,8 +111,8 @@ public class HighPerformanceTiledSpriteVertexBufferObject extends HighPerformanc
 			final float u2;
 			final float v2;
 
-			if(pTiledSprite.isFlippedVertical()) { // TODO Optimize with field access?
-				if(pTiledSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
+			if (pTiledSprite.isFlippedVertical()) { // TODO Optimize with field access?
+				if (pTiledSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
 					u = textureRegion.getU2();
 					u2 = textureRegion.getU();
 					v = textureRegion.getV2();
@@ -124,7 +124,7 @@ public class HighPerformanceTiledSpriteVertexBufferObject extends HighPerformanc
 					v2 = textureRegion.getV();
 				}
 			} else {
-				if(pTiledSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
+				if (pTiledSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
 					u = textureRegion.getU2();
 					u2 = textureRegion.getU();
 					v = textureRegion.getV();
@@ -137,7 +137,7 @@ public class HighPerformanceTiledSpriteVertexBufferObject extends HighPerformanc
 				}
 			}
 
-			if(textureRegion.isRotated()) {
+			if (textureRegion.isRotated()) {
 				bufferData[bufferDataOffset + 0 * TiledSprite.VERTEX_SIZE + Sprite.TEXTURECOORDINATES_INDEX_U] = u;
 				bufferData[bufferDataOffset + 0 * TiledSprite.VERTEX_SIZE + Sprite.TEXTURECOORDINATES_INDEX_V] = v;
 

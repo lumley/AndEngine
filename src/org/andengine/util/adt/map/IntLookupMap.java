@@ -5,7 +5,7 @@ import java.util.HashMap;
 import android.util.SparseArray;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 15:30:35 - 26.04.2012
@@ -48,7 +48,7 @@ public class IntLookupMap<T> implements IIntLookupMap<T> {
 	@Override
 	public int value(final T pName) {
 		final Integer value = this.mItemToValueMapping.get(pName);
-		if(value == null) {
+		if (value == null) {
 			return -1;
 		} else {
 			return value.intValue();

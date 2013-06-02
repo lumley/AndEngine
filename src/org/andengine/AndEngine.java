@@ -16,12 +16,12 @@ import android.content.pm.ConfigurationInfo;
 import android.os.Build;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 14:03:59 - 19.03.2012
  */
-public class AndEngine {
+public final class AndEngine {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -33,6 +33,10 @@ public class AndEngine {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	private AndEngine() {
+
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -62,7 +66,7 @@ public class AndEngine {
 	}
 
 	private static void checkCodePathSupport() throws DeviceNotSupportedException {
-		if(SystemUtils.isAndroidVersionOrLower(Build.VERSION_CODES.FROYO)) {
+		if (SystemUtils.isAndroidVersionOrLower(Build.VERSION_CODES.FROYO)) {
 			try {
 				System.loadLibrary("andengine");
 			} catch (final UnsatisfiedLinkError e) {

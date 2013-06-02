@@ -9,7 +9,7 @@ import org.andengine.util.exception.MethodNotSupportedException;
 /**
  * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga Inc.
- * 
+ *
  * @author Nicolas Gramlich
  * @since 15:35:53 - 29.03.2010
  */
@@ -29,7 +29,7 @@ public class CameraScene extends Scene {
 	// ===========================================================
 
 	/**
-	 * {@link CameraScene#setCamera(Camera)} needs to be called manually. Otherwise nothing will be drawn.
+	 * {@link #setCamera(Camera)} needs to be called manually. Otherwise nothing will be drawn.
 	 */
 	public CameraScene() {
 		this(null);
@@ -82,14 +82,14 @@ public class CameraScene extends Scene {
 
 	@Override
 	public boolean onSceneTouchEvent(final TouchEvent pSceneTouchEvent) {
-		if(this.mCamera == null) {
+		if (this.mCamera == null) {
 			return false;
 		} else {
 			this.mCamera.convertSceneTouchEventToCameraSceneTouchEvent(pSceneTouchEvent);
 
 			final boolean handled = super.onSceneTouchEvent(pSceneTouchEvent);
 
-			if(handled) {
+			if (handled) {
 				return true;
 			} else {
 				this.mCamera.convertCameraSceneTouchEventToSceneTouchEvent(pSceneTouchEvent);
@@ -101,7 +101,7 @@ public class CameraScene extends Scene {
 	@Override
 	protected boolean onChildSceneTouchEvent(final TouchEvent pSceneTouchEvent) {
 		final boolean childIsCameraScene = this.mChildScene instanceof CameraScene;
-		if(childIsCameraScene) {
+		if (childIsCameraScene) {
 			this.mCamera.convertCameraSceneTouchEventToSceneTouchEvent(pSceneTouchEvent);
 			final boolean result = super.onChildSceneTouchEvent(pSceneTouchEvent);
 			this.mCamera.convertSceneTouchEventToCameraSceneTouchEvent(pSceneTouchEvent);

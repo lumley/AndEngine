@@ -8,7 +8,7 @@ import org.andengine.util.level.IEntityLoaderListener;
 import org.andengine.util.level.LevelLoaderContentHandler;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 16:12:23 - 19.04.2012
@@ -25,11 +25,11 @@ public class SimpleLevelLoaderContentHandler extends LevelLoaderContentHandler<S
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public SimpleLevelLoaderContentHandler(final IEntityLoader<SimpleLevelEntityLoaderData> pDefaultEntityLoader, final HashMap<String, IEntityLoader<SimpleLevelEntityLoaderData>> pEntityLoaders, SimpleLevelEntityLoaderData pEntityLoaderData) {
+
+	public SimpleLevelLoaderContentHandler(final IEntityLoader<SimpleLevelEntityLoaderData> pDefaultEntityLoader, final HashMap<String, IEntityLoader<SimpleLevelEntityLoaderData>> pEntityLoaders, final SimpleLevelEntityLoaderData pEntityLoaderData) {
 		super(pDefaultEntityLoader, pEntityLoaders, pEntityLoaderData);
 	}
-	
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================

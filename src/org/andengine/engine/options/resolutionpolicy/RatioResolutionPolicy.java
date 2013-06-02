@@ -3,9 +3,9 @@ package org.andengine.engine.options.resolutionpolicy;
 import android.view.View.MeasureSpec;
 
 /**
- * (c) 2010 Nicolas Gramlich 
+ * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga Inc.
- * 
+ *
  * @author Nicolas Gramlich
  * @since 11:23:00 - 29.03.2010
  */
@@ -48,11 +48,11 @@ public class RatioResolutionPolicy extends BaseResolutionPolicy {
 		final int specHeight = MeasureSpec.getSize(pHeightMeasureSpec);
 
 		final float desiredRatio = this.mRatio;
-		final float realRatio = (float)specWidth / specHeight;
+		final float realRatio = ((float) specWidth) / specHeight;
 
 		int measuredWidth;
 		int measuredHeight;
-		if(realRatio < desiredRatio) {
+		if (realRatio < desiredRatio) {
 			measuredWidth = specWidth;
 			measuredHeight = Math.round(measuredWidth / desiredRatio);
 		} else {

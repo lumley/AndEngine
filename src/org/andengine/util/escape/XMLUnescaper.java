@@ -1,12 +1,12 @@
 package org.andengine.util.escape;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 3:27:44 PM - Apr 26, 2012
  */
-public class XMLUnescaper {
+public final class XMLUnescaper {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -33,6 +33,10 @@ public class XMLUnescaper {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	private XMLUnescaper() {
+
+	}
 
 	// ===========================================================
 	// Getter & Setter

@@ -11,7 +11,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributes;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 18:36:31 - 28.03.2012
@@ -79,8 +79,8 @@ public class LowMemoryUniformColorSpriteVertexBufferObject extends LowMemoryVert
 		final float u2;
 		final float v2;
 
-		if(pSprite.isFlippedVertical()) { // TODO Optimize with field access?
-			if(pSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
+		if (pSprite.isFlippedVertical()) { // TODO Optimize with field access?
+			if (pSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
 				u = textureRegion.getU2();
 				u2 = textureRegion.getU();
 				v = textureRegion.getV2();
@@ -92,7 +92,7 @@ public class LowMemoryUniformColorSpriteVertexBufferObject extends LowMemoryVert
 				v2 = textureRegion.getV();
 			}
 		} else {
-			if(pSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
+			if (pSprite.isFlippedHorizontal()) { // TODO Optimize with field access?
 				u = textureRegion.getU2();
 				u2 = textureRegion.getU();
 				v = textureRegion.getV();
@@ -105,7 +105,7 @@ public class LowMemoryUniformColorSpriteVertexBufferObject extends LowMemoryVert
 			}
 		}
 
-		if(textureRegion.isRotated()) {
+		if (textureRegion.isRotated()) {
 			bufferData.put(0 * UniformColorSprite.VERTEX_SIZE + UniformColorSprite.TEXTURECOORDINATES_INDEX_U, u);
 			bufferData.put(0 * UniformColorSprite.VERTEX_SIZE + UniformColorSprite.TEXTURECOORDINATES_INDEX_V, v);
 

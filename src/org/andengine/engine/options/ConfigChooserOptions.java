@@ -1,7 +1,7 @@
 package org.andengine.engine.options;
 
 /**
- * (c) Zynga 2012
+ * (c) 2012 Zynga Inc.
  *
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 16:01:53 - 12.05.2012
@@ -22,7 +22,7 @@ public class ConfigChooserOptions {
 	// Fields
 	// ===========================================================
 
-	private boolean mRequestedMultiSampling = false;
+	private boolean mRequestedMultiSampling;
 
 	private int mRequestedRedSize = ConfigChooserOptions.RED_SIZE_DEFAULT;
 	private int mRequestedGreenSize = ConfigChooserOptions.GREEN_SIZE_DEFAULT;
