@@ -1,19 +1,34 @@
 # AndEngine
 
-This is a fork from the original AndEngine project (GLES2-AnchorCenter) as of 27-07-2012 version. This fork's aim is to make a stable version (without new functionality) and document as far as I can manage to understand.
+This is a fork from the original AndEngine project (GLES2-AnchorCenter) as of 31-12-2013 version. This fork's aim is to make a stable version (without new functionality) and document as much as I can.
 
-## Other forked parts of AndEngine
- * [`AndEngineMODPlayerExtension`][URI_AndEngineMODPlayerExtension_Forked]
- * [`AndEngineMultiplayerExtension`][URI_AndEngineMultiplayerExtension_Forked]
- * [`AndEngineMultiTouchExtension`][URI_AndEngineMultiTouchExtension_Forked]
- * [`AndEnginePhysicsBox2DExtension`][URI_AndEnginePhysicsBox2DExtension_Forked]
- * [`AndEngineRobotiumExtension`][URI_AndEngineRobotiumExtension_Forked]
- * [`AndEngineScriptingExtension`][URI_AndEngineScriptingExtension_Forked]
- * [`AndEngineSVGTextureRegionExtension`][URI_AndEngineSVGTextureRegionExtension_Forked]
- * [`AndEngineTexturePackerExtension`][URI_AndEngineTexturePackerExtension_Forked]
- * [`AndEngineTMXTiledMapExtension`][URI_AndEngineTMXTiledMapExtension_Forked]
 
 Original readme:
+=======
+## Donations
+While developing AndEngine was a lot of fun, it also also consumed many(!) months of my life. It actually continues to cost me a significant amount of money to host the AndEngine forums.
+
+If you made profit using your game and can afford to spare a fraction of it to the developer of the game engine you used, I would be very grateful! =)
+
+### Bitcoin
+The easiest way of donating is via Bitcoin to the AndEngine funds wallet address:
+
+![Bitcoin](http://www.andengine.org/donate/bitcoin_16x16.png "Donate via Bitcoin")
+Bitcoin Wallet Address: ``1run6zViD16j2rP9evpayu8FqQ6mcRDqi`` ![Bitcoin Wallet](http://www.andengine.org/donate/bitcoin_wallet.png "Bitcoin Wallet")
+
+### Tip4Commit (Bitcoin)
+Tip the author (not the project itself) of the next commit to AndEngine:
+
+[![Bitcoin top for next commit](http://tip4commit.com/projects/192.svg)](http://tip4commit.com/projects/192)
+
+### PayPal
+Donation Email: donate@andengine.org
+
+
+Thank you!
+
+/Nicolas Gramlich
+
 ## Building
 
 ### Eclipse
@@ -81,13 +96,3 @@ public final class BuildConfig {
 [URI_AndEngineSVGTextureRegionExtension]: https://github.com/nicolasgramlich/AndEngineSVGTextureRegionExtension
 [URI_AndEngineTexturePackerExtension]: https://github.com/nicolasgramlich/AndEngineTexturePackerExtension
 [URI_AndEngineTMXTiledMapExtension]: https://github.com/nicolasgramlich/AndEngineTMXTiledMapExtension
-
-[URI_AndEngineMODPlayerExtension_Forked]: https://github.com/lumley/AndEngineMODPlayerExtension
-[URI_AndEngineMultiplayerExtension_Forked]: https://github.com/lumley/AndEngineMultiplayerExtension
-[URI_AndEngineMultiTouchExtension_Forked]: https://github.com/lumley/AndEngineMultiTouchExtension
-[URI_AndEnginePhysicsBox2DExtension_Forked]: https://github.com/lumley/AndEnginePhysicsBox2DExtension
-[URI_AndEngineRobotiumExtension_Forked]: https://github.com/lumley/AndEngineRobotiumExtension
-[URI_AndEngineScriptingExtension_Forked]: https://github.com/lumley/AndEngineScriptingExtension
-[URI_AndEngineSVGTextureRegionExtension_Forked]: https://github.com/lumley/AndEngineSVGTextureRegionExtension
-[URI_AndEngineTexturePackerExtension_Forked]: https://github.com/lumley/AndEngineTexturePackerExtension
-[URI_AndEngineTMXTiledMapExtension_Forked]: https://github.com/lumley/AndEngineTMXTiledMapExtension
